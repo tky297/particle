@@ -4,7 +4,7 @@ function setup() {
     createCanvas(windowWidth - 20, windowHeight - 20);
     colorMode(HSB, 360, 100, 100, 100)
     for (let i = 0; i < 2000; i++) {
-        let c = color(200, 100, random(200));
+        let c = color(100, 100, random(200));
         particles.push(new Particle(random(width), random(height), random(5, 10), c));
     }
 }
