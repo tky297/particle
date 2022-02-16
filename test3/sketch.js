@@ -58,15 +58,26 @@ const camera = new Camera(videoElement, {
 camera.start();
 
 let videoImage;
+let particles = [];
 let margin = 25;
 
 function setup() {
     const canvas = createCanvas(windowWidth - margin, windowHeight - margin);
     videoImage = createGraphics(320, 180);
+    colorMode(HSB, 360, 100, 100, 100)
+    for (let i = 0; i < 500; i++) {
+        let c = color(200, 100, random(200));
+        particles.push(new Particle(random(width), random(height), random(10, 20), c));
+    }
 }
 
 function draw() {
-    background(200, 200, 255);
+    background(0);
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].move();
+        // particles[i].avoid(mouseX, mouseY);
+        particles[i].draw();
+    }
 
     videoImage.drawingContext.drawImage(
         videoElement,
@@ -86,7 +97,7 @@ function draw() {
     imgHeight = imgWidth * videoImage.height / videoImage.width;
     imgX = 0;
     imgY = (height - imgHeight) / 2;
-    image(videoImage, imgX, imgY, imgWidth, imgHeight);
+    // image(videoImage, imgX, imgY, imgWidth, imgHeight);
     pop();
 
     // 手の位置を表示
@@ -95,6 +106,9 @@ function draw() {
 
 function windowResized() {
     resizeCanvas(windowWidth - margin, windowHeight - margin);
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].setTarget(random(width), random(height));
+    }
 }
 
 // 手の位置を表示
@@ -104,6 +118,10 @@ function drawHands(hands, _x, _y, _w, _h) {
             const indexTip1 = hands[i][j];
             let x1 = indexTip1.x * _w + _x;
             let y1 = indexTip1.y * _h + _y;
+
+            for (let k = 0; k < particles.length; k++) {
+                particles[k].avoid(x1, y1);
+            }
             for (let k = 0; k < lineMap.get(j).length; k++) {
                 const indexTip2 = hands[i][lineMap.get(j)[k]];
                 let x2 = indexTip2.x * _w + _x;

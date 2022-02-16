@@ -1,7 +1,8 @@
 let particles = [];
+let margin = 25;
 
 function setup() {
-    createCanvas(windowWidth - 20, windowHeight - 20);
+    createCanvas(windowWidth - margin, windowHeight - margin);
     colorMode(HSB, 360, 100, 100, 100)
     for (let i = 0; i < 500; i++) {
         let c = color(200, 100, random(200));
@@ -19,5 +20,8 @@ function draw() {
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth - 20, windowHeight - 20);
+    resizeCanvas(windowWidth - margin, windowHeight - margin);
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].setTarget(random(width), random(height));
+    }
 }

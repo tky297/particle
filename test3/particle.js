@@ -3,7 +3,7 @@ class Particle {
         this.pos = createVector(width / 2, height / 2);
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
-        this.maxForce = random(0.4, 0.6);
+        this.maxForce = random(5, 7);
         this.target = createVector(_x, _y);
         this.r = _r;
         this.c = _c;
