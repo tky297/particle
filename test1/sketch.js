@@ -1,12 +1,14 @@
-let particles = [];
-let margin = 25;
+// パーティクルのテスト
+
+let particles = []; // パーティクルの配列
+let margin = 25; // 余白
 
 function setup() {
     createCanvas(windowWidth - margin, windowHeight - margin);
     colorMode(HSB, 360, 100, 100, 100)
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 2000; i++) {
         let c = color(200, 100, random(200));
-        particles.push(new Particle(random(width), random(height), random(10, 20), c));
+        particles.push(new Particle(random(width), random(height), random(5, 10), c));
     }
 }
 
@@ -19,6 +21,7 @@ function draw() {
     }
 }
 
+// ウインドウサイズが変更されたら位置をリセット
 function windowResized() {
     resizeCanvas(windowWidth - margin, windowHeight - margin);
     for (let i = 0; i < particles.length; i++) {

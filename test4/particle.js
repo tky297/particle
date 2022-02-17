@@ -1,14 +1,14 @@
 // パーティクルのクラス 
 
 class Particle {
-    constructor(_x, _y, _r, _c) {
+    constructor(_x, _y, _r) {
         this.pos = createVector(width / 2, height / 2);
         this.vel = createVector(0, 0);
         this.acc = createVector(0, 0);
-        this.maxForce = random(0.4, 0.6);
+        this.maxForce = random(5, 7);
         this.target = createVector(_x, _y);
         this.r = _r;
-        this.c = _c;
+        this.alpha = random(200);
     }
 
     setTarget(_x, _y) {
@@ -40,7 +40,7 @@ class Particle {
 
     move() {
         this.goToTarget();
-        this.vel.mult(0.95);
+        this.vel.mult(0.9);
         this.vel.add(this.acc);
         this.pos.add(this.vel);
         this.acc.mult(0);
@@ -48,7 +48,9 @@ class Particle {
 
     draw() {
         noStroke();
-        fill(this.c);
+        // 速さに応じて色を変える
+        let hue = 240 - this.vel.mag() * 6;
+        fill(hue, 100, 100, this.alpha);
         ellipse(this.pos.x, this.pos.y, this.r, this.r);
     }
 }

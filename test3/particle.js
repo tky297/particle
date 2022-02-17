@@ -1,3 +1,5 @@
+// パーティクルのクラス 
+
 class Particle {
     constructor(_x, _y, _r, _c) {
         this.pos = createVector(width / 2, height / 2);

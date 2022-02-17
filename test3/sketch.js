@@ -1,3 +1,5 @@
+// test1のマウスの役割を手にする
+
 const isFlipped = true;
 let keypointsHand = [];
 
@@ -16,14 +18,15 @@ const hands = new Hands({
 
 hands.setOptions({
     selfieMode: isFlipped,
-    maxNumHands: 2, // 今回、簡単化のため検出数の最大1つまでに制限
+    maxNumHands: 2,
     modelComplexity: 1,
     minDetectionConfidence: 0.5,
     minTrackingConfidence: 0.5,
 });
 hands.onResults(onHandsResults);
 
-let lineMap = new Map(
+// どことどこをつなぐか
+let lineNumMap = new Map(
     [
         [0, [1, 5, 17]],
         [1, [2]],
@@ -65,9 +68,9 @@ function setup() {
     const canvas = createCanvas(windowWidth - margin, windowHeight - margin);
     videoImage = createGraphics(320, 180);
     colorMode(HSB, 360, 100, 100, 100)
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 1000; i++) {
         let c = color(200, 100, random(200));
-        particles.push(new Particle(random(width), random(height), random(10, 20), c));
+        particles.push(new Particle(random(width), random(height), random(5, 10), c));
     }
 }
 
@@ -75,7 +78,6 @@ function draw() {
     background(0);
     for (let i = 0; i < particles.length; i++) {
         particles[i].move();
-        // particles[i].avoid(mouseX, mouseY);
         particles[i].draw();
     }
 
@@ -104,6 +106,7 @@ function draw() {
     drawHands(keypointsHand, imgX, imgY, imgWidth, imgHeight);
 }
 
+// ウインドウサイズが変更されたら位置をリセット
 function windowResized() {
     resizeCanvas(windowWidth - margin, windowHeight - margin);
     for (let i = 0; i < particles.length; i++) {
@@ -122,8 +125,8 @@ function drawHands(hands, _x, _y, _w, _h) {
             for (let k = 0; k < particles.length; k++) {
                 particles[k].avoid(x1, y1);
             }
-            for (let k = 0; k < lineMap.get(j).length; k++) {
-                const indexTip2 = hands[i][lineMap.get(j)[k]];
+            for (let k = 0; k < lineNumMap.get(j).length; k++) {
+                const indexTip2 = hands[i][lineNumMap.get(j)[k]];
                 let x2 = indexTip2.x * _w + _x;
                 let y2 = indexTip2.y * _h + _y;
                 stroke(255);
